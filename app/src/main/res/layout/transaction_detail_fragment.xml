@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransactionOverviewFragment">
+    tools:context=".TransactionFragments.TransactionDetailFragment">
 
 
     <LinearLayout
@@ -13,46 +13,44 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text= "@string/new_transaction_title"
+            android:text= "Transaction Overview"
             style="@style/TextAppearance.AppCompat.Headline"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
-            android:text= "@string/name_prompt"
+            android:text= "@string/name"
             style="@style/TextAppearance.AppCompat.Title"/>
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:inputType="text"
-            ></EditText>
+            android:id="@+id/transaction_name" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
-            android:text= "@string/value_prompt"
+            android:text= "@string/value"
             style="@style/TextAppearance.AppCompat.Title"/>
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:inputType="text"
-            ></EditText>
+            android:id="@+id/transaction_value" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
-            android:text= "@string/category_prompt"
+            android:text= "@string/category"
             style="@style/TextAppearance.AppCompat.Title"/>
-        <Spinner
-            android:id="@+id/category_spinner"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/transaction_category" />
 
     </LinearLayout>
 

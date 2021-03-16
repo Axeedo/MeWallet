@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.axeedo.mewallet.TransactionFragments.NewTransactionFragment;
+import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
+
+public class MainActivity extends AppCompatActivity implements NewTransactionFragment.OnNewTransaction {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,5 +19,11 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, NewTransactionFragment.class, null)
                     .commit();
         }
+    }
+
+    public void switchFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, TransactionListFragment.class, null)
+                .commit();
     }
 }

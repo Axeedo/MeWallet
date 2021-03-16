@@ -1,4 +1,4 @@
-package com.axeedo.mewallet;
+package com.axeedo.mewallet.TransactionFragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.axeedo.mewallet.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TransactionOverviewFragment#newInstance} factory method to
+ * Use the {@link TransactionDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TransactionOverviewFragment extends Fragment {
+public class TransactionDetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class TransactionOverviewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TransactionOverviewFragment() {
+    public TransactionDetailFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +39,8 @@ public class TransactionOverviewFragment extends Fragment {
      * @return A new instance of fragment TransactionOverviewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TransactionOverviewFragment newInstance(String param1, String param2) {
-        TransactionOverviewFragment fragment = new TransactionOverviewFragment();
+    public static TransactionDetailFragment newInstance(String param1, String param2) {
+        TransactionDetailFragment fragment = new TransactionDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class TransactionOverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transaction_overview, container, false);
+        return inflater.inflate(R.layout.transaction_detail_fragment, container, false);
     }
 }
