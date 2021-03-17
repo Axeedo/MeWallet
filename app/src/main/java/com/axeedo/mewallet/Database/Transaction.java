@@ -1,13 +1,16 @@
 package com.axeedo.mewallet.Database;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity (tableName = "transactions")
 public class Transaction {
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int uid;
 
     @ColumnInfo(name = "transaction_name")
@@ -22,6 +25,7 @@ public class Transaction {
 
     public Transaction() { }
 
+    @Ignore
     public Transaction(String name, Double value) {
         this.name = name;
         this.value = value;

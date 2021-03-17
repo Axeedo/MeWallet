@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.axeedo.mewallet.Database.AppDatabase;
+import com.axeedo.mewallet.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.Database.Transaction;
 
-public class NewTransactionFragment extends Fragment implements TransactionEditorFragment.OnUpdatedTransactionData {
+public class NewTransactionFragment extends Fragment
+        implements TransactionEditorFragment.OnUpdatedTransactionDataListener {
 
-    private OnNewTransaction parentListener;
+    private OnSwitchFragmentListener parentListener;
     public static NewTransactionFragment newInstance() {
         return new NewTransactionFragment();
     }
@@ -37,11 +39,7 @@ public class NewTransactionFragment extends Fragment implements TransactionEdito
         db.transactionDAO().insertAll(newTransaction);
 
         //Redirect to transaction list
-        parentListener = (OnNewTransaction) getContext();
-        parentListener.switchFragment();
-    }
-
-    public interface OnNewTransaction {
-        public void switchFragment();
+        parentListener = (OnSwitchFragmentListener) getContext();
+        parentListener.goToFragment(TransactionListFragment.class, null);
     }
 }
