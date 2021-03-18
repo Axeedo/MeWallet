@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/transaction_item_fragment" />
+        tools:listitem="@layout/transaction_item_fragment"/>
 
 </LinearLayout>

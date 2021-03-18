@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.axeedo.mewallet.Database.Transaction;
@@ -20,6 +21,9 @@ import com.axeedo.mewallet.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.TransactionListAdapter;
 import com.axeedo.mewallet.TransactionsViewModel;
+import com.axeedo.mewallet.Utils.ItemClickSupport;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -29,15 +33,15 @@ import java.util.List;
 public class TransactionListFragment extends Fragment {
 
     private OnSwitchFragmentListener mParentListener;
-    private TransactionsViewModel mTransactionsViewModel;
+    //private TransactionsViewModel mTransactionsViewModel;
     TransactionListAdapter mAdapter;
     RecyclerView mTransactionListRecyclerView;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TransactionListFragment() {
-    }
+    public TransactionListFragment() { }
 
     public static TransactionListFragment newInstance(int columnCount) {
         TransactionListFragment fragment = new TransactionListFragment();
@@ -45,42 +49,20 @@ public class TransactionListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            //Get arguments here
-        }
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.transaction_list_fragment, container, false);
 
+        View view = inflater.inflate(R.layout.transaction_list_fragment, container, false);
         Context context = view.getContext();
         mAdapter = new TransactionListAdapter(getContext());
 
-        //TransactionViewModel
-        mTransactionsViewModel = new ViewModelProvider(requireActivity()).get(TransactionsViewModel.class);
-        mTransactionsViewModel.getAllTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
-            @Override
-            public void onChanged(List<Transaction> transactions) {
-                mAdapter.setTransactions(transactions);
-            }
-        });
+        // Set TransactionViewModel as the source of data for TransactionListAdapter
+        attachViewModelToAdapter(mAdapter);
 
-        mTransactionListRecyclerView = (RecyclerView) view.findViewById(R.id.transaction_list);
-        mTransactionListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mTransactionListRecyclerView.setAdapter(mAdapter);
-        Log.i("JFL","Just attached adapter");
+        // Attach adapter to RecyclerView
+        attachAdapterToList(view);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-
-        }
-
+        // Add new transaction button
         Button addTransactionBtn = view.findViewById(R.id.add_transaction_btn);
         addTransactionBtn.setOnClickListener((View v) -> {
             //Redirect to new transaction fragment
@@ -91,8 +73,44 @@ public class TransactionListFragment extends Fragment {
         return view;
     }
 
-    // TODO store in ViewModel
-    /*public List<Transaction> getTransactions(){
-        return AppDatabase.getDbInstance(getContext()).transactionDAO().getAll();
-    }*/
+
+    /**
+     * Sets {@link TransactionsViewModel} as the source of data for the provided {@link TransactionListAdapter}
+     * @param adapter
+     */
+    void attachViewModelToAdapter(@NotNull TransactionListAdapter adapter) {
+        //get the ViewModel that should have been instantiated in parent activity's onCreate() method
+        TransactionsViewModel transactionsViewModel = new ViewModelProvider(requireActivity())
+                .get(TransactionsViewModel.class);
+
+        // Since we are using LiveData, we can observe the changes to the data and update the view
+        // when it is changed
+        transactionsViewModel.getAllTransactions()
+                .observe(getViewLifecycleOwner(), adapter::setTransactions);
+    }
+
+    /**
+     * Initialises transactionList RecyclerView and attaches it to mAdapter
+     * @param view
+     */
+    void attachAdapterToList(View view) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        mTransactionListRecyclerView = (RecyclerView) view.findViewById(R.id.transaction_list);
+        mTransactionListRecyclerView.setLayoutManager(linearLayoutManager);
+        mTransactionListRecyclerView.setAdapter(mAdapter);
+        ItemClickSupport.addTo(mTransactionListRecyclerView)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+
+                        Bundle args = new Bundle();
+                        args.putInt("selected_transaction_position", position);
+                        mParentListener = (OnSwitchFragmentListener) getContext();
+                        mParentListener.goToFragment(TransactionDetailFragment.class, args);
+                    }
+                });
+    }
 }

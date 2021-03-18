@@ -4,17 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-
-import com.axeedo.mewallet.Database.Transaction;
 import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -27,6 +22,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
+            // instantiate ViewModel
             transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
             // set initial starting fragment
             switchToFragment(TransactionListFragment.class, null);
@@ -43,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, fragmentClass, args)
+                .addToBackStack("activity back stack")
                 .commit();
     }
 
@@ -51,5 +48,17 @@ public class MainActivity extends AppCompatActivity
     public void goToFragment(@NonNull @NotNull Class<? extends Fragment> fragmentClass,
                              @Nullable Bundle args) {
         switchToFragment(fragmentClass, args);
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }
