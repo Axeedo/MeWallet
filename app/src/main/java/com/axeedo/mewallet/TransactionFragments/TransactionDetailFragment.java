@@ -29,9 +29,7 @@ public class TransactionDetailFragment extends Fragment
     private int mPosition;
     private OnSwitchFragmentListener mParentListener;
 
-    public TransactionDetailFragment() {
-        // Required empty public constructor
-    }
+    public TransactionDetailFragment() { /* Required empty public constructor */ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +57,8 @@ public class TransactionDetailFragment extends Fragment
     @Override
     public void newTransactionNotification(Transaction newTransaction) {
         //Update database
-        Repository repository = new Repository(getActivity().getApplication());
-        repository.insert(newTransaction);
+        new ViewModelProvider(requireActivity()).get(TransactionsViewModel.class)
+                .insert(newTransaction);
         Toast.makeText(getContext(),"Transaction updated", Toast.LENGTH_SHORT).show();
 
         //Redirect to transaction list

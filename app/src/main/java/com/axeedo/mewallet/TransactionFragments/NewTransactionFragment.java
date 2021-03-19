@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,13 @@ import com.axeedo.mewallet.Database.Repository;
 import com.axeedo.mewallet.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.Database.Transaction;
+import com.axeedo.mewallet.TransactionsViewModel;
 
 public class NewTransactionFragment extends Fragment
         implements TransactionEditorFragment.OnUpdatedTransactionDataListener {
 
-    private OnSwitchFragmentListener parentListener;
-    public static NewTransactionFragment newInstance() {
-        return new NewTransactionFragment();
-    }
+    OnSwitchFragmentListener parentListener;
+    public NewTransactionFragment() { /* Required empty public constructor */ }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -36,11 +36,17 @@ public class NewTransactionFragment extends Fragment
     @Override
     public void newTransactionNotification(Transaction newTransaction) {
         //Update database
-        Repository repository = new Repository(getActivity().getApplication());
-        repository.insert(newTransaction);
+        new ViewModelProvider(requireActivity()).get(TransactionsViewModel.class)
+                .insert(newTransaction);
 
         //Redirect to transaction list
         parentListener = (OnSwitchFragmentListener) getContext();
         parentListener.goToFragment(TransactionListFragment.class, null);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        parentListener = null;
     }
 }
