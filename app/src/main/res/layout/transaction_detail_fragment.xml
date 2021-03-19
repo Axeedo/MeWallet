@@ -1,57 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".TransactionFragments.TransactionDetailFragment">
 
-
-    <LinearLayout
+    <TextView
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text= "Transaction Overview"
-            style="@style/TextAppearance.AppCompat.Headline"/>
+        android:layout_height="match_parent"
+        android:text="Transaction Details" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:text= "@string/name"
-            style="@style/TextAppearance.AppCompat.Title"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/transaction_name" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:text= "@string/value"
-            style="@style/TextAppearance.AppCompat.Title"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/transaction_value" />
+    <FrameLayout
+        android:id="@+id/transaction_detail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:text= "@string/category"
-            style="@style/TextAppearance.AppCompat.Title"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/transaction_category" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

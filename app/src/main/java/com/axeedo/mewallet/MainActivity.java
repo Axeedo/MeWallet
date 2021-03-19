@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
+import com.axeedo.mewallet.Utils.Constants;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, fragmentClass, args)
-                .addToBackStack("activity back stack")
+                .addToBackStack(Constants.MAIN_BACKSTACK)
                 .commit();
     }
 

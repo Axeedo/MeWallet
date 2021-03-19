@@ -21,6 +21,7 @@ import com.axeedo.mewallet.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.TransactionListAdapter;
 import com.axeedo.mewallet.TransactionsViewModel;
+import com.axeedo.mewallet.Utils.Constants;
 import com.axeedo.mewallet.Utils.ItemClickSupport;
 
 import org.jetbrains.annotations.NotNull;
@@ -100,14 +101,13 @@ public class TransactionListFragment extends Fragment {
         mTransactionListRecyclerView = (RecyclerView) view.findViewById(R.id.transaction_list);
         mTransactionListRecyclerView.setLayoutManager(linearLayoutManager);
         mTransactionListRecyclerView.setAdapter(mAdapter);
+        //Add clickListener to item in RecyclerView
         ItemClickSupport.addTo(mTransactionListRecyclerView)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-
                         Bundle args = new Bundle();
-                        args.putInt("selected_transaction_position", position);
+                        args.putInt(Constants.ARG_POSITION, position);
                         mParentListener = (OnSwitchFragmentListener) getContext();
                         mParentListener.goToFragment(TransactionDetailFragment.class, args);
                     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,10 @@ import android.widget.EditText;
 
 import com.axeedo.mewallet.Database.Transaction;
 import com.axeedo.mewallet.R;
+import com.axeedo.mewallet.TransactionsViewModel;
+import com.axeedo.mewallet.Utils.Constants;
+
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +29,8 @@ import com.axeedo.mewallet.R;
 public class TransactionEditorFragment extends Fragment {
 
     OnUpdatedTransactionDataListener parentListener;
+    private int mPosition;
+    private Transaction mTransaction;
 
     public TransactionEditorFragment() {
         // Required empty public constructor
@@ -36,8 +43,18 @@ public class TransactionEditorFragment extends Fragment {
      * @return A new instance of fragment TransactionEditorFragment.
      */
     public static TransactionEditorFragment newInstance() {
-        TransactionEditorFragment fragment = new TransactionEditorFragment();
-        return fragment;
+        return new TransactionEditorFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            mPosition = getArguments().getInt(Constants.ARG_POSITION);
+            TransactionsViewModel transactionsViewModel = new ViewModelProvider(requireActivity())
+                    .get(TransactionsViewModel.class);
+            mTransaction = transactionsViewModel.getTransaction(mPosition);
+        }
     }
 
     @Override
@@ -51,14 +68,29 @@ public class TransactionEditorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if(mTransaction != null){
+            setViewFromTransaction(view);
+        }
+
         Button saveBtn = getView().findViewById(R.id.save_transaction_button);
         saveBtn.setOnClickListener( (View v)->{
-            Transaction newTransaction = getTransactionFromView(view);
+            Transaction updatedTransaction = getTransactionFromView(view);
 
             // Let Parent fragment (or any class implementing OnUpdatedTransactionDataListener)
             // decide what to do with the new Transaction object
-            parentListener.newTransactionNotification(newTransaction);
+            parentListener.newTransactionNotification(updatedTransaction);
         });
+    }
+
+    void setViewFromTransaction(View v) {
+        EditText nameInput = v.findViewById(R.id.new_transaction_name);
+        EditText valueInput = v.findViewById(R.id.new_transaction_value);
+        //Todo handle category selection
+
+        nameInput.setText(mTransaction.getName());
+
+        //Locale is here because Android lint is showing a warning.
+        valueInput.setText(String.format(Locale.US,"%.2f", mTransaction.getValue()));
     }
 
     Transaction getTransactionFromView(View v) {
@@ -73,7 +105,13 @@ public class TransactionEditorFragment extends Fragment {
         }catch (NumberFormatException e) {
             //TODO refuse save
         }
-        return new Transaction(name, value);
+        if(mTransaction == null)
+            return new Transaction(name, value);
+        else{
+            mTransaction.setName(name);
+            mTransaction.setValue(value);
+            return mTransaction;
+        }
     }
 
     /**
@@ -83,6 +121,7 @@ public class TransactionEditorFragment extends Fragment {
         void newTransactionNotification(Transaction newTransaction);
     }
 
+    // get parent fragment
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

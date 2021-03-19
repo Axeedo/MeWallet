@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.axeedo.mewallet.Database.AppDatabase;
+import com.axeedo.mewallet.Database.Repository;
 import com.axeedo.mewallet.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.Database.Transaction;
@@ -35,8 +36,8 @@ public class NewTransactionFragment extends Fragment
     @Override
     public void newTransactionNotification(Transaction newTransaction) {
         //Update database
-        AppDatabase db = AppDatabase.getDbInstance(getContext());
-        db.transactionDAO().insertAll(newTransaction);
+        Repository repository = new Repository(getActivity().getApplication());
+        repository.insert(newTransaction);
 
         //Redirect to transaction list
         parentListener = (OnSwitchFragmentListener) getContext();

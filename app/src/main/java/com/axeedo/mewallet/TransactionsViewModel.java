@@ -24,4 +24,19 @@ public class TransactionsViewModel extends AndroidViewModel {
     public LiveData<List<Transaction>> getAllTransactions() { return mTransactions; }
 
     public void insert(Transaction transaction) { mRepository.insert(transaction); }
+
+    /**
+     * Returns Transaction at given position from ViewModel internal Transaction List
+     * @param position
+     * @return
+     */
+    public Transaction getTransaction(int position) {
+        Transaction transaction;
+        try{
+            transaction = getAllTransactions().getValue().get(position);
+        } catch (RuntimeException e){
+            return null;
+        }
+        return transaction;
+    }
 }
