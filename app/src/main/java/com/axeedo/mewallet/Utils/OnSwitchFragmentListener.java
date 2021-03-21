@@ -1,4 +1,4 @@
-package com.axeedo.mewallet;
+package com.axeedo.mewallet.Utils;
 
 import android.os.Bundle;
 

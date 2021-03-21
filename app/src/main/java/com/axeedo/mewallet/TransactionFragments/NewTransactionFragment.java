@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.axeedo.mewallet.Database.AppDatabase;
-import com.axeedo.mewallet.Database.Repository;
-import com.axeedo.mewallet.OnSwitchFragmentListener;
+import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
 import com.axeedo.mewallet.Database.Transaction;
-import com.axeedo.mewallet.TransactionsViewModel;
+import com.axeedo.mewallet.ViewModels.appViewModel;
 
 public class NewTransactionFragment extends Fragment
         implements TransactionEditorFragment.OnUpdatedTransactionDataListener {
@@ -36,7 +34,7 @@ public class NewTransactionFragment extends Fragment
     @Override
     public void newTransactionNotification(Transaction newTransaction) {
         //Update database
-        new ViewModelProvider(requireActivity()).get(TransactionsViewModel.class)
+        new ViewModelProvider(requireActivity()).get(appViewModel.class)
                 .insert(newTransaction);
 
         //Redirect to transaction list

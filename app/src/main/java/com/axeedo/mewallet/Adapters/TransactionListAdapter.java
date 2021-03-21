@@ -1,4 +1,4 @@
-package com.axeedo.mewallet;
+package com.axeedo.mewallet.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,11 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.axeedo.mewallet.Database.Transaction;
-import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
+import com.axeedo.mewallet.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 

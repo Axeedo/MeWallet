@@ -20,6 +20,10 @@
 
     <!-- Transaction list -->
     <string name="transaction_list_title">Transaction List</string>
+
+    <!-- Category list -->
+    <string name="category_list_title">Category List</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

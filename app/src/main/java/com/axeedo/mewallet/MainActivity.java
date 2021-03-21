@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
 import com.axeedo.mewallet.Utils.Constants;
+import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;
+import com.axeedo.mewallet.ViewModels.appViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class MainActivity extends AppCompatActivity
         implements OnSwitchFragmentListener {
 
-    TransactionsViewModel transactionsViewModel;
+    appViewModel appViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             // instantiate ViewModel
-            transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
+            appViewModel = new ViewModelProvider(this).get(appViewModel.class);
             // set initial starting fragment
-            switchToFragment(TransactionListFragment.class, null);
+            switchToFragment(HomeFragment.class, null);
         }
     }
 

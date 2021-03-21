@@ -1,4 +1,4 @@
-package com.axeedo.mewallet.TransactionFragments;
+package com.axeedo.mewallet.CategoryFragments;
 
 import android.os.Bundle;
 
@@ -10,20 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.axeedo.mewallet.Database.Category;
 import com.axeedo.mewallet.Database.Transaction;
-import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;
 import com.axeedo.mewallet.R;
-import com.axeedo.mewallet.ViewModels.appViewModel;
+import com.axeedo.mewallet.TransactionFragments.TransactionDetailContentFragment;
+import com.axeedo.mewallet.TransactionFragments.TransactionEditorFragment;
+import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
 import com.axeedo.mewallet.Utils.Constants;
+import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;
+import com.axeedo.mewallet.ViewModels.appViewModel;
 
 
-public class TransactionDetailFragment extends Fragment
-        implements TransactionEditorFragment.OnUpdatedTransactionDataListener, TransactionDetailContentFragment.OnEditTransactionListener {
+public class CategoryDetailFragment extends Fragment
+        implements CategoryDetailContentFragment.OnEditCategoryListener, CategoryEditorFragment.OnUpdatedCategoryDataListener {
 
     private int mPosition;
     private OnSwitchFragmentListener mParentListener;
 
-    public TransactionDetailFragment() { /* Required empty public constructor */ }
+    public CategoryDetailFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +43,11 @@ public class TransactionDetailFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.transaction_detail_fragment, container, false);
+        View view = inflater.inflate(R.layout.category_detail_fragment, container, false);
         Bundle args = new Bundle();
         args.putInt(Constants.ARG_POSITION, mPosition);
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.transaction_detail_content,TransactionDetailContentFragment.class, args)
+                .replace(R.id.category_detail_content, CategoryDetailContentFragment.class, args)
                 .addToBackStack(Constants.MAIN_BACKSTACK)
                 .commit();
 
@@ -49,23 +55,23 @@ public class TransactionDetailFragment extends Fragment
     }
 
     @Override
-    public void newTransactionNotification(Transaction newTransaction) {
+    public void newCategoryNotification(Category newCategory) {
         //Update database
         new ViewModelProvider(requireActivity()).get(appViewModel.class)
-                .insert(newTransaction);
-        Toast.makeText(getContext(),"Transaction updated", Toast.LENGTH_SHORT).show();
+                .insert(newCategory);
+        Toast.makeText(getContext(),"Category updated", Toast.LENGTH_SHORT).show();
 
-        //Redirect to transaction list
+        //Redirect to Category list
         mParentListener = (OnSwitchFragmentListener) getContext();
-        mParentListener.goToFragment(TransactionListFragment.class, null);
+        mParentListener.goToFragment(CategoryListFragment.class, null);
     }
 
     @Override
-    public void goToEditFragment(int transactionPosition) {
+    public void goToEditFragment(int categoryPosition) {
         Bundle args = new Bundle();
-        args.putInt(Constants.ARG_POSITION, transactionPosition);
+        args.putInt(Constants.ARG_POSITION, categoryPosition);
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.transaction_detail_content,TransactionEditorFragment.class, args)
+                .replace(R.id.category_detail_content, CategoryEditorFragment.class, args)
                 .commit();
     }
 

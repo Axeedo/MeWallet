@@ -1,4 +1,4 @@
-package com.axeedo.mewallet.TransactionFragments;
+package com.axeedo.mewallet.CategoryFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,20 +14,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.axeedo.mewallet.Database.Category;
 import com.axeedo.mewallet.Database.Transaction;
 import com.axeedo.mewallet.R;
-import com.axeedo.mewallet.ViewModels.appViewModel;
+import com.axeedo.mewallet.TransactionFragments.TransactionDetailContentFragment;
+import com.axeedo.mewallet.TransactionFragments.TransactionEditorFragment;
 import com.axeedo.mewallet.Utils.Constants;
+import com.axeedo.mewallet.ViewModels.appViewModel;
 
-import java.util.Locale;
 
-public class TransactionDetailContentFragment extends Fragment {
+public class CategoryDetailContentFragment extends Fragment {
 
-    OnEditTransactionListener parentListener;
+    OnEditCategoryListener parentListener;
     private int mPosition;
-    private Transaction mTransaction;
-
-    public TransactionDetailContentFragment() {
+    private Category mCategory;
+    public CategoryDetailContentFragment() {
         // Required empty public constructor
     }
 
@@ -38,7 +39,7 @@ public class TransactionDetailContentFragment extends Fragment {
             mPosition = getArguments().getInt(Constants.ARG_POSITION);
             appViewModel appViewModel = new ViewModelProvider(requireActivity())
                     .get(appViewModel.class);
-            mTransaction = appViewModel.getTransaction(mPosition);
+            mCategory = appViewModel.getCategory(mPosition);
         }
     }
 
@@ -46,41 +47,39 @@ public class TransactionDetailContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.transaction_detail_content_fragment, container, false);
+        return inflater.inflate(R.layout.category_detail_content_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setViewFromTransaction(view);
+        setViewFromCategory(view);
 
         // Add edit transaction button
-        Button editTransactionBtn = view.findViewById(R.id.edit_transaction_button);
-        editTransactionBtn.setOnClickListener((View v) -> {
+        Button editCategoryBtn = view.findViewById(R.id.edit_category_button);
+        editCategoryBtn.setOnClickListener((View v) -> {
             //Redirect to edit transaction fragment
             parentListener.goToEditFragment(mPosition);
         });
     }
 
-    void setViewFromTransaction(View view) {
-        TextView name = view.findViewById(R.id.transaction_name);
-        TextView value = view.findViewById(R.id.transaction_value);
+    private void setViewFromCategory(View view) {
+        TextView name = view.findViewById(R.id.category_name);
 
         appViewModel appViewModel = new ViewModelProvider(requireActivity())
                 .get(appViewModel.class);
-        mTransaction = appViewModel.getTransaction(mPosition);
-        if (mTransaction == null){
-            mTransaction = new Transaction("No transaction found", 0.0);
+        mCategory = appViewModel.getCategory(mPosition);
+        if (mCategory == null){
+            mCategory = new Category("No category found");
             // TODO do not allow edit
         }
 
-        name.setText(mTransaction.getName());
-        value.setText(String.format(Locale.US,"%.2f", mTransaction.getValue()));
+        name.setText(mCategory.getName());
     }
 
-    public interface OnEditTransactionListener{
-        public void goToEditFragment(int transactionPosition);
+    public interface OnEditCategoryListener{
+        public void goToEditFragment(int categoryPosition);
     }
 
     // get parent fragment
@@ -88,11 +87,11 @@ public class TransactionDetailContentFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // check if parent Fragment implements listener
-        if (getParentFragment() instanceof TransactionEditorFragment.OnUpdatedTransactionDataListener) {
-            parentListener = (OnEditTransactionListener) getParentFragment();
+        if (getParentFragment() instanceof CategoryEditorFragment.OnUpdatedCategoryDataListener) {
+            parentListener = (OnEditCategoryListener) getParentFragment();
         } else {
             throw new RuntimeException("The parent fragment must implement " +
-                    "OnEditTransactionListener");
+                    "OnEditCategoryListener");
         }
     }
 

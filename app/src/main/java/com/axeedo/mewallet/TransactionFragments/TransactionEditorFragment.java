@@ -16,16 +16,12 @@ import android.widget.EditText;
 
 import com.axeedo.mewallet.Database.Transaction;
 import com.axeedo.mewallet.R;
-import com.axeedo.mewallet.TransactionsViewModel;
+import com.axeedo.mewallet.ViewModels.appViewModel;
 import com.axeedo.mewallet.Utils.Constants;
 
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TransactionEditorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class TransactionEditorFragment extends Fragment {
 
     OnUpdatedTransactionDataListener parentListener;
@@ -51,9 +47,9 @@ public class TransactionEditorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null){
             mPosition = getArguments().getInt(Constants.ARG_POSITION);
-            TransactionsViewModel transactionsViewModel = new ViewModelProvider(requireActivity())
-                    .get(TransactionsViewModel.class);
-            mTransaction = transactionsViewModel.getTransaction(mPosition);
+            appViewModel appViewModel = new ViewModelProvider(requireActivity())
+                    .get(appViewModel.class);
+            mTransaction = appViewModel.getTransaction(mPosition);
         }
     }
 
