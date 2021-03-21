@@ -37,6 +37,14 @@ public class CategoryImageListAdapter extends BaseAdapter {
         urls.add(url);
     }
 
+    public void remove(int position) {
+        urls.remove(position);
+    }
+
+    public void clear(){
+        urls.removeAllElements();
+    }
+
     @Override
     public int getCount() {
         return urls.size();

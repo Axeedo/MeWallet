@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.axeedo.mewallet.Utils.Constants;
 
-@Database(entities = {Transaction.class, Category.class}, version = 2)
+@Database(entities = {Transaction.class, Category.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TransactionDAO transactionDAO();
     public abstract CategoryDAO categoryDAO();
@@ -22,17 +22,19 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getDbInstance (Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, Constants.DB_NAME)
-                    .addMigrations(MIGRATION_1_2)
+                    //.addMigrations(MIGRATION_1_2)
                     .build();
         }
         return INSTANCE;
     }
 
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    // Version migration in case the database structure is changed
+    // Alternatively, just clean the phone app data
+    /*static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `categories` (`uid` INTEGER NOT NULL, "
                     + "`category_name` TEXT, PRIMARY KEY(`uid`))");
         }
-    };
+    };*/
 }
