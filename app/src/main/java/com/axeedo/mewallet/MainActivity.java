@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+
+import com.axeedo.mewallet.CategoryFragments.CategoryImageFragment;
+import com.axeedo.mewallet.CategoryFragments.CategoryListFragment;
 import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
 import com.axeedo.mewallet.Utils.Constants;
 import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;

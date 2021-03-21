@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.axeedo.mewallet.CategoryFragments.CategoryImageFragment;
 import com.axeedo.mewallet.CategoryFragments.CategoryListFragment;
 import com.axeedo.mewallet.TransactionFragments.TransactionListFragment;
 import com.axeedo.mewallet.Utils.OnSwitchFragmentListener;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button categories = view.findViewById(R.id.category_list_btn);
         Button transactions = view.findViewById(R.id.transaction_list_btn);
+        Button images = view.findViewById(R.id.image_list_btn);
         mParentListener = (OnSwitchFragmentListener) getContext();
 
         categories.setOnClickListener((View v) -> {
@@ -59,6 +61,10 @@ public class HomeFragment extends Fragment {
         });
         transactions.setOnClickListener((View v) -> {
             mParentListener.goToFragment(TransactionListFragment.class, null);
+        });
+
+        images.setOnClickListener((View v) -> {
+            mParentListener.goToFragment(CategoryImageFragment.class, null);
         });
         return view;
     }

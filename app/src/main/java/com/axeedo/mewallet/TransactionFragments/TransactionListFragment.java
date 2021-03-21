@@ -48,7 +48,7 @@ public class TransactionListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.transaction_list_fragment, container, false);
         Context context = view.getContext();
-        mAdapter = new TransactionListAdapter(getContext());
+        mAdapter = new TransactionListAdapter(context);
 
         // Set TransactionViewModel as the source of data for TransactionListAdapter
         attachViewModelToAdapter(mAdapter);
